@@ -11,7 +11,7 @@ bing="www.bing.com"
 # The mkt parameter determines which Bing market you would like to
 # obtain your images from.
 # Valid values are: en-US, zh-CN, ja-JP, en-AU, en-UK, de-DE, en-NZ, en-CA.
-mkt="zh-CN"
+mkt="fr-BE"
 
 # The idx parameter determines where to start from. 0 is the current day,
 # 1 the previous day, etc.
@@ -112,7 +112,7 @@ while true; do
     picURL=$bing$(echo $(curl -s $xmlURL) | grep -oP "<urlBase>(.*)</urlBase>" | cut -d ">" -f 2 | cut -d "<" -f 1)$picRes$picExt
 
     # $picName contains the filename of the Bing pic of the day
-    picName=${picURL#*2f}
+    picName=${picURL##*/}
 
     # Download the Bing pic of the day
     curl -s -o $saveDir$picName $picURL
@@ -124,7 +124,7 @@ while true; do
     done
     detectDE 
 
-    if [[ $DE = "gnome" ]]; then
+    if [[ $DE = "gnome3" ]]; then
     # Set the GNOME3 wallpaper
     DISPLAY=:0 GSETTINGS_BACKEND=dconf gsettings set org.gnome.desktop.background picture-uri '"file://'$saveDir$picName'"'
 
